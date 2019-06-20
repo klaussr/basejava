@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
@@ -22,32 +25,27 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        Resume a = null;
-        for (int i = 0; i < size(); i++) {
-            if (storage[i].toString().equalsIgnoreCase(uuid)) {
-                a = storage[i];
-            }
-        }
-        return a;
+        for (Resume r : storage)
+            return r.toString().equalsIgnoreCase(uuid) ? r : null;
+        return null;
     }
 
     void delete(String uuid) {
-        for (int i = 0; i < size(); i++) {
-            if (storage[i].toString().equalsIgnoreCase(uuid)) {
-                storage[i] = null;
-            }
-        }
+        ArrayList<Resume> list = new ArrayList<>(Arrays.asList(storage));
+        list.remove(get(uuid));
+        storage = list.toArray(new Resume[list.size()]);
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] storage2 = new Resume[size()];
+        Resume[] storageNotNull = new Resume[size()];
         for (int i = 0; i < size(); i++) {
-            storage2[i] = storage[i];
+            storageNotNull[i] = storage[i];
+
         }
-        return storage2;
+        return storageNotNull;
     }
 
     int size() {
