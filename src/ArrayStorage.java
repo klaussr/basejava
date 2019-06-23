@@ -6,9 +6,10 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    int size = size();
 
     void clear() {
-        for (int i = 0; i < storage.length; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i] != null) {
                 storage[i] = null;
             }
@@ -25,31 +26,41 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        for (Resume r : storage)
-            return r.toString().equalsIgnoreCase(uuid) ? r : null;
-        return null;
+        for (int i = 0; i < size; i++){
+            if(storage[i].toString().equals(uuid)) {
+                return storage[i];
+            }
+            else return null;
+        }
+        return storage[uuid.indexOf(uuid)];
     }
 
     void delete(String uuid) {
-        ArrayList<Resume> list = new ArrayList<>(Arrays.asList(storage));
-        list.remove(get(uuid));
-        storage = list.toArray(new Resume[list.size()]);
+        for (int i = 0; i < size; i++){
+            if (storage[i].toString().equals(uuid)){
+                storage[i] = null;
+            }
+        }
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] storageNotNull = new Resume[size()];
-        for (int i = 0; i < size(); i++) {
-            storageNotNull[i] = storage[i];
-
+        size();
+        Resume[] storageNotNull = new Resume[size];
+        int j = 0;
+        for (int i = 0; i < size+1; i++) {
+            if (storage[i] != null) {
+                storageNotNull[j] = storage[i];
+                j++;
+            }
         }
         return storageNotNull;
     }
 
     int size() {
-        int size = 0;
+        size = 0;
         for (int i = 0; i < storage.length; i++) {
             if (storage[i] != null) {
                 size++;
